@@ -3,76 +3,60 @@ import axios from "axios";
 import { Link, useNavigate, Navigate} from "react-router-dom"
 import './App.css';
 
-async function getToken() {
+async function getToken(data) {
   let token = ""
+  let result = ""
   await axios.request({
     method: "POST",
     url: `http://127.0.0.1:8000/api/token/`,
     data: {
-      "password": "password123",
-      "username": "admin"
+      "password": data.password,
+      "username": data.username
     }
   }).then(res => {
+    result = res
     token = res.data.access;
     localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', res.data.refresh);
   }).catch(error => {
-    console.error('There was an error!', error);
+    result = error
+    console.log(error.response.status)
+    console.log(error.response.data.detail)
+    console.error(error);
   });
-  return token
+  return result
 }
 
-async function getData(token) {
-  let data =  {}
-  await axios.request({
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    method: "GET",
-    url: `http://localhost:8000/api/v1/employees/`
-  }).then(res => {
-    console.log(res.data.results)
-    data = res.data.results
-  }).catch(error => {
-      console.error('There was an error!', error);
-  });
-  return data
-}
-
-async function deleteItem(token, id) {
-  let data =  {}
-  await axios.request({
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      method: "DELETE",
-      url: "http://localhost:8000/api/v1/employees/" + id + "/"
-  }).then(res => {
-      data = res.data.results
-  }).catch(error => {
-      console.error('There was an error!', error);
-  });
-  return data
-}
 
 function App() {
-  const [username, setusername] = useState("");
-  const [password, setpassword] = useState("");
-  const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
-  const users = [{ username: "Jane", password: "testpassword" }];
+  const [inputData, setInputData] = useState({
+    username:"", 
+    password:"",
+});
+  const [authenticated, setauthenticated] = useState(localStorage.getItem("token")|| false);
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const account = users.find((user) => user.username === username);
-    if (account && account.password === password) {
+    getToken(inputData).then(result => {
+      //console.log(result)
+      if (result.request.status === 200){
         setauthenticated(true)
-        localStorage.setItem("authenticated", true);
-    }
+      }
+      let error = Object.values(result).includes("code");
+      //console.log(result.code)
+      //console.log(error)
+
+      if (result.code === "ERR_BAD_REQUEST"){
+        alert(result.response.data.detail)
+      }
+    }).catch(error => {
+        setauthenticated(false)
+        console.error('There was an error!', error);
+    });
   };
 
-  const isAuthenticated = true;
 
-  if (isAuthenticated) {
+  if (authenticated) {
     return <Navigate to="home/" />;
   }
 
@@ -84,10 +68,12 @@ function App() {
             </div>
             <form onSubmit={handleSubmit}>
                 <div className='m-3'>
-                    <input type='text' placeholder='Username' name='username'  className='form-control'/>
+                    <input type='text' placeholder='Username' name='username'  className='form-control'
+                    onChange={e=>setInputData({...inputData, username: e.target.value})}/>
                 </div>
                 <div className='m-3'>
-                    <input type='password' placeholder='Password' name='password' className='form-control'/>
+                    <input type='password' placeholder='Password' name='password' className='form-control'
+                    onChange={e=>setInputData({...inputData, password: e.target.value})}/>
                 </div>
                 <button className='m-3 btn btn-info'>Login</button>
             </form>

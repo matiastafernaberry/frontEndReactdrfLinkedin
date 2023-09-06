@@ -3,24 +3,24 @@ import axios from "axios";
 import { Link, useNavigate, Navigate} from "react-router-dom"
 import './App.css';
 
-async function getToken() {
-  let token = ""
-  await axios.request({
-    method: "POST",
-    url: `http://127.0.0.1:8000/api/token/`,
-    data: {
-      "password": "password123",
-      "username": "admin"
-    }
-  }).then(res => {
-    token = res.data.access;
-    localStorage.setItem('token', token);
-    localStorage.setItem('refreshToken', res.data.refresh);
-  }).catch(error => {
-    console.error('There was an error!', error);
-  });
-  return token
-}
+// async function getToken() {
+//   let token = ""
+//   await axios.request({
+//     method: "POST",
+//     url: `http://127.0.0.1:8000/api/token/`,
+//     data: {
+//       "password": "password123",
+//       "username": "admin"
+//     }
+//   }).then(res => {
+//     token = res.data.access;
+//     localStorage.setItem('token', token);
+//     localStorage.setItem('refreshToken', res.data.refresh);
+//   }).catch(error => {
+//     console.error('There was an error!', error);
+//   });
+//   return token
+// }
 
 async function getData(token) {
   let data =  {}
@@ -55,29 +55,13 @@ async function deleteItem(token, id) {
   return data
 }
 
-function App() {
+function Home() {
   const [records, setRecords] = useState([]);
   const navigate = useNavigate()
 
   useEffect(()=> {
     let token = localStorage.getItem('token');
-    if (!token){
-      //get token 
-      getToken().then(result => {
-        //console.log(result)
-        token = result;
-        getData(token).then(result => {
-          console.log(result)
-          setRecords(result)
-        }).catch(error => {
-            console.error('There was an error!', error);
-        });
-      }).catch(error => {
-          console.error('There was an error!', error);
-      });
-      
-
-    } else {
+    
       getData(token).then(result => {
         console.log(result)
         setRecords(result)
@@ -85,7 +69,7 @@ function App() {
           console.error('There was an error!', error);
       });
       
-    }
+    
   },[])
 
 
@@ -144,4 +128,4 @@ function App() {
   }
 }
 
-export default App;
+export default Home;
