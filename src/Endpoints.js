@@ -22,30 +22,47 @@ export async function getToken(data) {
       console.error(error);
     });
     return result
-  }
+}
 
-  export async function getData(token) {
+export async function getData(token) {
     let data =  {}
     await axios.request({
-      headers: {
+        headers: {
         Authorization: `Bearer ${token}`
-      },
-      method: "GET",
-      url: `http://localhost:8000/api/v1/employees/`
+        },
+        method: "GET",
+        url: `http://localhost:8000/api/v1/employees/`
     }).then(res => {
-      console.log(res.data.results)
-      data = res.data.results
+        console.log(res.data.results)
+        data = res.data.results
     }).catch(error => {
         console.error('There was an error!', error);
     });
     return data
-  }
+}
 
-  export async function deleteItem(token, id) {
+export async function getSingleData(token, id) {
     let data =  {}
     await axios.request({
         headers: {
-          Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`
+        },
+        method: "GET",
+        url: "http://localhost:8000/api/v1/employees/" + id + "/"
+    }).then(res => {
+        console.log(res.data.results)
+        data = res.data
+    }).catch(error => {
+        console.error('There was an error!', error);
+    });
+    return data
+}
+
+export async function deleteItem(token, id) {
+    let data =  {}
+    await axios.request({
+        headers: {
+            Authorization: `Bearer ${token}`
         },
         method: "DELETE",
         url: "http://localhost:8000/api/v1/employees/" + id + "/"
@@ -55,4 +72,4 @@ export async function getToken(data) {
         console.error('There was an error!', error);
     });
     return data
-  }
+}

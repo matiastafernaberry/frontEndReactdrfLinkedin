@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from "axios";
+import {getSingleData, deleteItem} from "./Endpoints"
 
 function Update() {
     const {id} = useParams()
@@ -18,19 +19,15 @@ function Update() {
     const token = localStorage.getItem('token');
 
     useEffect(()=> {
-        axios.request({
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            method: "GET",
-            url: "http://localhost:8000/api/v1/employees/" + id + "/"
-            }).then(res => {
-                console.log(res.data)
-                setData(res.data)
-            }).catch(error => {
-                console.error('There was an error!', error);
-            });
-        })
+        let token = localStorage.getItem('token');
+        getSingleData(token, id).then(result => {
+            console.log(result)
+            setData(result)
+        }).catch(error => {
+            console.error('There was an error!', error);
+        });
+    },[])
+
 
     const navigate = useNavigate()
 

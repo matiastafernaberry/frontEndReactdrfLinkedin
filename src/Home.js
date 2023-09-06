@@ -11,12 +11,12 @@ function Home() {
 
   useEffect(()=> {
     let token = localStorage.getItem('token');
-      getData(token).then(result => {
+    getData(token).then(result => {
         console.log(result)
         setRecords(result)
-      }).catch(error => {
-          console.error('There was an error!', error);
-      });
+    }).catch(error => {
+        console.error('There was an error!', error);
+    });
   },[])
 
   return (
