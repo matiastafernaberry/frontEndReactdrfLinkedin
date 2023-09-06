@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from "axios";
-import { Link, useNavigate, Navigate} from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import './App.css';
 import {getData, deleteItem} from "./Endpoints"
+import Navbar from './Navbar'
 
 
 function Home() {
@@ -20,6 +20,7 @@ function Home() {
   },[])
 
   return (
+    
     <div className="container mt-5">
       <div className='text-end float-right m-3'>
         <Link to="/create" className='btn btn-primary'>Add +</Link>
