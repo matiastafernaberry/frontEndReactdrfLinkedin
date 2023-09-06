@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import { Link, useNavigate} from "react-router-dom"
+import { Link, useNavigate, Navigate} from "react-router-dom"
 import './App.css';
 
 async function getToken() {
@@ -56,91 +56,44 @@ async function deleteItem(token, id) {
 }
 
 function App() {
-  const [records, setRecords] = useState([]);
-  const navigate = useNavigate()
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
+  const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
+  const users = [{ username: "Jane", password: "testpassword" }];
 
-  useEffect(()=> {
-    let token = localStorage.getItem('token');
-    if (!token){
-      //get token 
-      getToken().then(result => {
-        //console.log(result)
-        token = result;
-        getData(token).then(result => {
-          console.log(result)
-          setRecords(result)
-        }).catch(error => {
-            console.error('There was an error!', error);
-        });
-      }).catch(error => {
-          console.error('There was an error!', error);
-      });
-      
-
-    } else {
-      getData(token).then(result => {
-        console.log(result)
-        setRecords(result)
-      }).catch(error => {
-          console.error('There was an error!', error);
-      });
-      
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const account = users.find((user) => user.username === username);
+    if (account && account.password === password) {
+        setauthenticated(true)
+        localStorage.setItem("authenticated", true);
     }
-  },[])
+  };
+
+  const isAuthenticated = true;
+
+  if (isAuthenticated) {
+    return <Navigate to="home/" />;
+  }
 
   return (
-    <div className="container mt-5">
-      <div className='text-end float-right m-3'>
-        <Link to="/create" className='btn btn-primary'>Add +</Link>
-      </div>
-      <table className='table'>
-        <thead>
-          <tr>
-              <th>First Name</th>
-              <th>Middle Name</th>
-              <th>Last Name</th>
-              <th>Address</th>
-              <th>Birthdate</th>
-              <th>Admission Date</th>
-              <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-        {records.map((item) => (
-          <tr key={item.id}>
-            {/* {Object.values(item).map((val) => (
-              <td>{val}</td>
-            ))} */}
-             <td>{item.first_name}</td>
-             <td>{item.middle_name}</td>
-             <td>{item.last_name}</td>
-             <td>{item.address}</td>
-             <td>{item.birth_date}</td>
-             <td>{item.admission_date}</td>
-            <td>
-              <Link to={`/update/${item.employee_id}`} className='btn btn-success'>update</Link>
-              <button onClick={e=> handleDelete(item.employee_id)} className='btn btn-danger'>delete</button>
-            </td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
+    <div className='d-flex w-100 vh-100 justify-content-center align-items-center'>
+        <div className='w-50 border bg-light p-5'>
+            <div className='m-5'>
+                <h1>Login</h1>
+            </div>
+            <form onSubmit={handleSubmit}>
+                <div className='m-3'>
+                    <input type='text' placeholder='Username' name='username'  className='form-control'/>
+                </div>
+                <div className='m-3'>
+                    <input type='password' placeholder='Password' name='password' className='form-control'/>
+                </div>
+                <button className='m-3 btn btn-info'>Login</button>
+            </form>
+        </div>
     </div>
   );
-
-  function handleDelete(id){
-    const conf = window.confirm("Do you want to delete?");
-    let token = localStorage.getItem('token');
-    if (conf){
-      deleteItem(token, id).then(result => {
-        console.log(result)
-        alert("Record has deleted")
-        navigate(0)
-      }).catch(error => {
-          console.error('There was an error!', error);
-      });
-    }
-  }
 }
 
 export default App;
