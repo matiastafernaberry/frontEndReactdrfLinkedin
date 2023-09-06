@@ -41,6 +41,24 @@ export async function getData(token) {
     return data
 }
 
+export async function updateData(token, data, id) {
+    let result =  {}
+    await axios.request({
+        headers: {
+        Authorization: `Bearer ${token}`
+        },
+        method: "PUT",
+        url: `http://localhost:8000/api/v1/employees/` + id + "/",
+        data: data
+    }).then(res => {
+        console.log(res.data.results)
+        data = res.data.results
+    }).catch(error => {
+        console.error('There was an error!', error);
+    });
+    return result
+}
+
 export async function getSingleData(token, id) {
     let data =  {}
     await axios.request({

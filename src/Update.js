@@ -1,11 +1,12 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
-import axios from "axios";
-import {getSingleData, deleteItem} from "./Endpoints"
+import {getSingleData, updateData} from "./Endpoints"
 
 function Update() {
     const {id} = useParams()
+    const navigate = useNavigate()
+    const token = localStorage.getItem('token');
 
     const [data, setData] = useState([]);
     const [inputData, setInputData] = useState({
@@ -16,10 +17,9 @@ function Update() {
         birth_date:"",
         admission_date:""
     });
-    const token = localStorage.getItem('token');
+    
 
     useEffect(()=> {
-        let token = localStorage.getItem('token');
         getSingleData(token, id).then(result => {
             console.log(result)
             setData(result)
@@ -29,29 +29,19 @@ function Update() {
     },[])
 
 
-    const navigate = useNavigate()
-
     function handleSubmit(event){
         event.preventDefault()
         //check if value is empty
         Object.keys(inputData).forEach(function(key, index) {
             if (!inputData[key]){inputData[key] = data[key]} ;
         });
-        axios.request({
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            method: "PUT",
-            url: "http://localhost:8000/api/v1/employees/" + id + "/",
-            data: inputData
-        }).then(res => {
+
+        updateData(token, inputData, id).then(result => {
             alert("Data Updated Succesfully!")
             navigate("/")
-
         }).catch(error => {
             console.error('There was an error!', error);
-            console.error(inputData);
-        });   
+        });
     }
     
   return (
