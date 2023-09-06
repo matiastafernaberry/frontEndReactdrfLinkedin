@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import {Link} from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import './App.css';
 
 async function getToken() {
@@ -39,8 +39,25 @@ async function getData(token) {
   return data
 }
 
+async function deleteItem(token, id) {
+  let data =  {}
+  await axios.request({
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      method: "DELETE",
+      url: "http://localhost:8000/api/v1/employees/" + id + "/"
+  }).then(res => {
+      data = res.data.results
+  }).catch(error => {
+      console.error('There was an error!', error);
+  });
+  return data
+}
+
 function App() {
   const [records, setRecords] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(()=> {
     let token = localStorage.getItem('token');
@@ -111,8 +128,18 @@ function App() {
     </div>
   );
 
-  function handleDelete(){
-
+  function handleDelete(id){
+    const conf = window.confirm("Do you want to delete?");
+    let token = localStorage.getItem('token');
+    if (conf){
+      deleteItem(token, id).then(result => {
+        console.log(result)
+        alert("Record has deleted")
+        navigate(0)
+      }).catch(error => {
+          console.error('There was an error!', error);
+      });
+    }
   }
 }
 
