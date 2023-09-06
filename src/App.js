@@ -13,8 +13,8 @@ async function getToken() {
       "username": "admin"
     }
   }).then(res => {
-    token = res.data.access
-    localStorage.setItem('token', );
+    token = res.data.access;
+    localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', res.data.refresh);
   }).catch(error => {
     console.error('There was an error!', error);
@@ -45,18 +45,24 @@ function App() {
   useEffect(()=> {
     let token = localStorage.getItem('token');
     if (!token){
-
-      token = getToken()
-      getData(token).then(result => {
+      //get token 
+      getToken().then(result => {
         //console.log(result)
-        setRecords(result)
+        token = result;
+        getData(token).then(result => {
+          console.log(result)
+          setRecords(result)
+        }).catch(error => {
+            console.error('There was an error!', error);
+        });
       }).catch(error => {
           console.error('There was an error!', error);
       });
+      
 
     } else {
       getData(token).then(result => {
-        //console.log(result)
+        console.log(result)
         setRecords(result)
       }).catch(error => {
           console.error('There was an error!', error);
