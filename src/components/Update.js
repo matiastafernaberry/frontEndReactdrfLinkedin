@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {getSingleData, updateData} from "../api/Endpoints"
+import {GetSingleData, UpdateData} from "../api/Endpoints"
 
 function Update() {
     const {id} = useParams()
@@ -19,7 +19,7 @@ function Update() {
     });
 
     useEffect(()=> {
-        getSingleData(token, id).then(result => {
+        GetSingleData(token, id).then(result => {
             console.log(result)
             setData(result)
         }).catch(error => {
@@ -34,7 +34,7 @@ function Update() {
             if (!inputData[key]){inputData[key] = data[key]} ;
         });
 
-        updateData(token, inputData, id).then(result => {
+        UpdateData(token, inputData, id).then(result => {
             alert("Data Updated Succesfully!")
             navigate("/home/")
         }).catch(error => {

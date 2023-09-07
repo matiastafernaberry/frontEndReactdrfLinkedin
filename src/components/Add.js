@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addData } from '../api/Endpoints';
+import { AddData } from '../api/Endpoints';
 
 function Add() {
     const [inputData, setInputData] = useState({
@@ -19,7 +19,7 @@ function Add() {
     function handleSubmit(event){
         event.preventDefault()
        
-        addData(token, inputData).then(result => {
+        AddData(token, inputData).then(result => {
             alert("Data Updated Succesfully!")
             navigate("/home/")
         }).catch(error => {

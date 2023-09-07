@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Navigate} from "react-router-dom"
 import '../App.css';
-import {getToken} from "../api/Endpoints"
+import {GetToken} from "../api/Endpoints"
 
 function Login() {
   const [inputData, setInputData] = useState({
@@ -12,8 +12,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    getToken(inputData).then(result => {
-      //console.log(result)
+    GetToken(inputData).then(result => {
       if (result.request.status === 200){
         setauthenticated(true)
       }

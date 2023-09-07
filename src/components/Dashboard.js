@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate} from "react-router-dom"
 import '../App.css';
-import {getData, deleteItem} from "../api/Endpoints"
+import {GetData, DeleteItem} from "../api/Endpoints"
 
 
 function Dashboard() {
@@ -10,9 +10,15 @@ function Dashboard() {
 
   useEffect(()=> {
     let token = localStorage.getItem('token');
-    getData(token).then(result => {
-        console.log(result)
-        setRecords(result)
+    GetData(token).then(result => {
+        if (Object.keys(result).length > 0 ){
+          setRecords(result)
+        } else {
+          console.log(result)
+          localStorage.token = ""
+          window.location.replace('/');
+        }
+        
     }).catch(error => {
         console.error('There was an error!', error);
     });
@@ -62,7 +68,7 @@ function Dashboard() {
     const conf = window.confirm("Do you want to delete?");
     let token = localStorage.getItem('token');
     if (conf){
-      deleteItem(token, id).then(result => {
+      DeleteItem(token, id).then(result => {
         console.log(result)
         alert("Record has deleted")
         navigate(0)

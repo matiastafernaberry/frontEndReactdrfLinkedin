@@ -1,13 +1,15 @@
 import axios from "axios";
 
 
+var BASE_URL = "http://127.0.0.1:8000"
 
-export async function getToken(data) {
+
+export async function GetToken(data) {
     let token = ""
     let result = ""
     await axios.request({
       method: "POST",
-      url: `http://127.0.0.1:8000/api/token/`,
+      url: BASE_URL + "/api/token/",
       data: {
         "password": data.password,
         "username": data.username
@@ -27,32 +29,33 @@ export async function getToken(data) {
     return result
 }
 
-export async function getData(token) {
+export async function GetData(token) {
     let data =  {}
     await axios.request({
         headers: {
         Authorization: `Bearer ${token}`
         },
         method: "GET",
-        url: `http://localhost:8000/api/v1/employees/`,
+        url: BASE_URL + "/api/v1/employees/",
         withCredentials: true
     }).then(res => {
         console.log(res.data.results)
         data = res.data.results
     }).catch(error => {
         console.error('There was an error!', error);
+        console.log(error.code)
     });
     return data
 }
 
-export async function updateData(token, data, id) {
+export async function UpdateData(token, data, id) {
     let result =  {}
     await axios.request({
         headers: {
         Authorization: `Bearer ${token}`
         },
         method: "PUT",
-        url: `http://localhost:8000/api/v1/employees/` + id + "/",
+        url: BASE_URL + "/api/v1/employees/" + id + "/",
         data: data
     }).then(res => {
         console.log(res.data.results)
@@ -63,14 +66,14 @@ export async function updateData(token, data, id) {
     return result
 }
 
-export async function addData(token, data) {
+export async function AddData(token, data) {
     let result =  {}
     await axios.request({
         headers: {
         Authorization: `Bearer ${token}`
         },
         method: "POST",
-        url: `http://localhost:8000/api/v1/employees/`,
+        url: BASE_URL + "/api/v1/employees/",
         data: data
     }).then(res => {
         console.log(res.data.results)
@@ -81,14 +84,14 @@ export async function addData(token, data) {
     return result
 }
 
-export async function getSingleData(token, id) {
+export async function GetSingleData(token, id) {
     let data =  {}
     await axios.request({
         headers: {
         Authorization: `Bearer ${token}`
         },
         method: "GET",
-        url: "http://localhost:8000/api/v1/employees/" + id + "/"
+        url: BASE_URL + "/api/v1/employees/" + id + "/"
     }).then(res => {
         console.log(res.data.results)
         data = res.data
@@ -98,14 +101,14 @@ export async function getSingleData(token, id) {
     return data
 }
 
-export async function deleteItem(token, id) {
+export async function DeleteItem(token, id) {
     let data =  {}
     await axios.request({
         headers: {
             Authorization: `Bearer ${token}`
         },
         method: "DELETE",
-        url: "http://localhost:8000/api/v1/employees/" + id + "/"
+        url: BASE_URL + "/api/v1/employees/" + id + "/"
     }).then(res => {
         data = res.data.results
     }).catch(error => {
