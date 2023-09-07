@@ -5,7 +5,7 @@ import {getData, deleteItem} from "./Endpoints"
 
 
 function Dashboard() {
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState([],[]);
   const navigate = useNavigate()
 
   useEffect(()=> {
@@ -36,23 +36,23 @@ function Dashboard() {
           </tr>
         </thead>
         <tbody>
-        {records.map((item) => (
-          <tr key={item.id}>
-            {/* {Object.values(item).map((val) => (
-              <td>{val}</td>
-            ))} */}
-             <td>{item.first_name}</td>
-             <td>{item.middle_name}</td>
-             <td>{item.last_name}</td>
-             <td>{item.address}</td>
-             <td>{item.birth_date}</td>
-             <td>{item.admission_date}</td>
-            <td>
-              <Link to={`/update/${item.employee_id}`} className='btn btn-success'>update</Link>
-              <button onClick={e=> handleDelete(item.employee_id)} className='btn btn-danger'>delete</button>
-            </td>
-          </tr>
-        ))}
+          {records.map((item) => (
+            <tr key={item.id}>
+              {/* {Object.values(item).map((val) => (
+                <td>{val}</td>
+              ))} */}
+              <td>{item.first_name}</td>
+              <td>{item.middle_name}</td>
+              <td>{item.last_name}</td>
+              <td>{item.address}</td>
+              <td>{item.birth_date}</td>
+              <td>{item.admission_date}</td>
+              <td>
+                <Link to={`/update/${item.employee_id}`} className='btn btn-success'>update</Link>
+                <button onClick={e=> handleDelete(item.employee_id)} className='btn btn-danger'>delete</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

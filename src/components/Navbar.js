@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const NavbarPage = () => {
   const guestLinks = (
-      <Link to="/about">
-        <Link className="btn signOut">Sign out</Link>
+      <Link to="logout/">
+        <Link to="logout/" className="btn signOut">Sign out</Link>
       </Link>
   );
   return (
