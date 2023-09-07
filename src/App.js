@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './components/Navbar'
-import AppRouter from './AppRouter'
+import AppRouter from './router/AppRouter'
 
 
 

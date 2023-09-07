@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate} from "react-router-dom"
 import '../App.css';
-import {getData, deleteItem} from "./Endpoints"
+import {getData, deleteItem} from "../api/Endpoints"
 
 
 function Dashboard() {
@@ -23,8 +23,8 @@ function Dashboard() {
       <div className='text-end float-right m-3'>
         <Link to="/create" className='btn btn-primary'>Add +</Link>
       </div>
-      <table className='table'>
-        <thead>
+      <table className='table table-bordered table-hover '>
+        <thead class="thead-dark">
           <tr>
               <th>First Name</th>
               <th>Middle Name</th>
@@ -48,8 +48,8 @@ function Dashboard() {
               <td>{item.birth_date}</td>
               <td>{item.admission_date}</td>
               <td>
-                <Link to={`/update/${item.employee_id}`} className='btn btn-success'>update</Link>
-                <button onClick={e=> handleDelete(item.employee_id)} className='btn btn-danger'>delete</button>
+                <Link to={`/update/${item.employee_id}`} className='btn btn-outline-success btn-sm m-1'>update</Link>
+                <button onClick={e=> handleDelete(item.employee_id)} className='btn btn-outline-danger btn-sm m-1'>delete</button>
               </td>
             </tr>
           ))}

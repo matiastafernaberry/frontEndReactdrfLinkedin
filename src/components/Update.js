@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {getSingleData, updateData} from "./Endpoints"
+import {getSingleData, updateData} from "../api/Endpoints"
 
 function Update() {
     const {id} = useParams()

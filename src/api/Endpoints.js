@@ -1,5 +1,7 @@
 import axios from "axios";
 
+
+
 export async function getToken(data) {
     let token = ""
     let result = ""
@@ -9,7 +11,8 @@ export async function getToken(data) {
       data: {
         "password": data.password,
         "username": data.username
-      }
+      },
+      withCredentials: true
     }).then(res => {
       result = res
       token = res.data.access;
@@ -31,7 +34,8 @@ export async function getData(token) {
         Authorization: `Bearer ${token}`
         },
         method: "GET",
-        url: `http://localhost:8000/api/v1/employees/`
+        url: `http://localhost:8000/api/v1/employees/`,
+        withCredentials: true
     }).then(res => {
         console.log(res.data.results)
         data = res.data.results

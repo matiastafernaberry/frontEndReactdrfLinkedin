@@ -12,7 +12,7 @@ const NavbarPage = () => {
     <nav className="navbar bg-white">
       <h3 className="titleName">
         <Link to="/">
-          <i className="fas fa-pen" /> Home
+          <i className="fas fa-pen" /> Employees
         </Link>
       </h3>
       {guestLinks}

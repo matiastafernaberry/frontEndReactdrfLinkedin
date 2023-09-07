@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addData } from './Endpoints';
+import { addData } from '../api/Endpoints';
 
 function Add() {
     const [inputData, setInputData] = useState({
