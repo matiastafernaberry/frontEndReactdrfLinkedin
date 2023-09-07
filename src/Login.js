@@ -3,8 +3,6 @@ import { Navigate} from "react-router-dom"
 import './App.css';
 import {getToken} from "./Endpoints"
 
-
-
 function Login() {
   const [inputData, setInputData] = useState({
     username:"", 
@@ -27,7 +25,6 @@ function Login() {
         console.error('There was an error!', error);
     });
   };
-
 
   if (authenticated) {
     return <Navigate to="/home/" />;

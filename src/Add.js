@@ -36,10 +36,7 @@ function Add() {
     }
   return (
     <div className='d-flex w-100 vh-100 justify-content-center align-items-center'>
-        <div className='w-50 border bg-light p-5'>
-            <div className='text-end float-right m-3'>
-                <Link to="/home/" className='btn btn-primary'>Home</Link>
-            </div>
+        <div className='w-50 border bg-light p-1'>
             <div className='m-5'>
                 <h1>Add Employee</h1>
             </div>

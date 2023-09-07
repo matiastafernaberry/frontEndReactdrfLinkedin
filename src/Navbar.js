@@ -4,19 +4,15 @@ import { Link } from "react-router-dom";
 
 const NavbarPage = () => {
   const guestLinks = (
-    <ul>
-      <li>
-        <Link to="/about">
-          <Link className="btn signOut">Sign out</Link>
-        </Link>
-      </li>
-    </ul>
+      <Link to="/about">
+        <Link className="btn signOut">Sign out</Link>
+      </Link>
   );
   return (
     <nav className="navbar bg-white">
       <h3 className="titleName">
         <Link to="/">
-          <i className="fas fa-pen" /> demo
+          <i className="fas fa-pen" /> Home
         </Link>
       </h3>
       {guestLinks}
