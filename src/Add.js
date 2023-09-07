@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from "axios";
+import { addData } from './Endpoints';
 
 function Add() {
     const [inputData, setInputData] = useState({
@@ -12,25 +13,18 @@ function Add() {
         birth_date:"",
         admission_date:""
     });
+    const token = localStorage.getItem('token');
 
     const navigate = useNavigate()
 
     function handleSubmit(event){
         event.preventDefault()
-        axios.request({
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            },
-            method: "POST",
-            url: `http://localhost:8000/api/v1/employees/`,
-            data: inputData
-        }).then(res => {
-            alert("Data Added Succesfully!")
+       
+        addData(token, inputData).then(result => {
+            alert("Data Updated Succesfully!")
             navigate("/home/")
-
         }).catch(error => {
             console.error('There was an error!', error);
-            console.error(inputData);
         });
         
     }
