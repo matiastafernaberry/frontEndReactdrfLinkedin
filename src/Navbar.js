@@ -1,11 +1,23 @@
-function Navbar() {
-    return (
-        <div className="container mt-5">
-          <div className='text-end float-right m-3'>
-            dsdsadad
-          </div>
-        </div>
-    )
-}
+import React from "react";
+import { Link } from "react-router-dom";
 
-export default Navbar;
+
+const NavbarPage = () => {
+  const guestLinks = (
+      <Link to="/about">
+        <Link className="btn signOut">Sign out</Link>
+      </Link>
+  );
+  return (
+    <nav className="navbar bg-white">
+      <h3 className="titleName">
+        <Link to="/">
+          <i className="fas fa-pen" /> Home
+        </Link>
+      </h3>
+      {guestLinks}
+    </nav>
+  );
+};
+
+export default NavbarPage;
