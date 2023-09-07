@@ -1,10 +1,9 @@
 import React from 'react'
-import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
-import App from './App'
-import Add from './Add'
-import Update from './Update'
-import Home from './Home'
-import Login from './Login'
+import { Routes, Route} from "react-router-dom"
+import Add from './components/Add'
+import Update from './components/Update'
+import Home from './components/Home'
+import Login from './components/Login'
 
 function AppRouter() {
   return (

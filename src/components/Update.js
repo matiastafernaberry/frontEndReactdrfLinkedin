@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {getSingleData, updateData} from "./Endpoints"
 
 function Update() {
@@ -17,7 +17,6 @@ function Update() {
         birth_date:"",
         admission_date:""
     });
-    
 
     useEffect(()=> {
         getSingleData(token, id).then(result => {
@@ -26,8 +25,7 @@ function Update() {
         }).catch(error => {
             console.error('There was an error!', error);
         });
-    },[])
-
+    },[token, id])
 
     function handleSubmit(event){
         event.preventDefault()

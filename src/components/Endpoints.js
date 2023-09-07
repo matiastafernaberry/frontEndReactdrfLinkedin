@@ -59,7 +59,6 @@ export async function updateData(token, data, id) {
     return result
 }
 
-
 export async function addData(token, data) {
     let result =  {}
     await axios.request({

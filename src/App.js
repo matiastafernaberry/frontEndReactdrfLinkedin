@@ -1,6 +1,5 @@
 import './App.css';
-import Login from './Login'
-import Navbar from './Navbar'
+import Navbar from './components/Navbar'
 import AppRouter from './AppRouter'
 
 

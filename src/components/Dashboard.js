@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate} from "react-router-dom"
-import './App.css';
+import '../App.css';
 import {getData, deleteItem} from "./Endpoints"
 
 
@@ -19,7 +19,6 @@ function Dashboard() {
   },[])
 
   return (
-    
     <div className="container mt-5">
       <div className='text-end float-right m-3'>
         <Link to="/create" className='btn btn-primary'>Add +</Link>
@@ -66,7 +65,7 @@ function Dashboard() {
       deleteItem(token, id).then(result => {
         console.log(result)
         alert("Record has deleted")
-        navigate("/home/")
+        navigate(0)
       }).catch(error => {
           console.error('There was an error!', error);
       });

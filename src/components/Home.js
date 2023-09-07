@@ -1,9 +1,8 @@
-import './App.css';
+import '../App.css';
 import Dashboard from './Dashboard';
 
 
 function Home() {
-   
     return (
         <>
             <Dashboard />
