@@ -1,19 +1,38 @@
-import { useState } from "react";
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Navigate} from "react-router-dom"
+import './App.css';
+import {getToken} from "./Endpoints"
 
-const Login = () => {
-  const [username, setusername] = useState("");
-  const [password, setpassword] = useState("");
-  const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
-  const users = [{ username: "Jane", password: "testpassword" }];
+
+
+function Login() {
+  const [inputData, setInputData] = useState({
+    username:"", 
+    password:"",
+  });
+  const [authenticated, setauthenticated] = useState(localStorage.getItem("token")|| false);
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    const account = users.find((user) => user.username === username);
-    if (account && account.password === password) {
+    getToken(inputData).then(result => {
+      //console.log(result)
+      if (result.request.status === 200){
         setauthenticated(true)
-        localStorage.setItem("authenticated", true);
-    }
+      }
+      if (result.code === "ERR_BAD_REQUEST"){
+        alert(result.response.data.detail)
+      }
+    }).catch(error => {
+        setauthenticated(false)
+        console.error('There was an error!', error);
+    });
   };
+
+
+  if (authenticated) {
+    return <Navigate to="/home/" />;
+  }
+
   return (
     <div className='d-flex w-100 vh-100 justify-content-center align-items-center'>
         <div className='w-50 border bg-light p-5'>
@@ -22,17 +41,18 @@ const Login = () => {
             </div>
             <form onSubmit={handleSubmit}>
                 <div className='m-3'>
-                    <input type='text' placeholder='Username' name='username'  className='form-control'/>
+                    <input type='text' placeholder='Username' name='username'  className='form-control'
+                    onChange={e=>setInputData({...inputData, username: e.target.value})}/>
                 </div>
                 <div className='m-3'>
-                    <input type='password' placeholder='Password' name='password' className='form-control'/>
+                    <input type='password' placeholder='Password' name='password' className='form-control'
+                    onChange={e=>setInputData({...inputData, password: e.target.value})}/>
                 </div>
                 <button className='m-3 btn btn-info'>Login</button>
             </form>
         </div>
     </div>
-  )
-};
-
+  );
+}
 
 export default Login;

@@ -38,7 +38,7 @@ function Update() {
 
         updateData(token, inputData, id).then(result => {
             alert("Data Updated Succesfully!")
-            navigate("/")
+            navigate("/home/")
         }).catch(error => {
             console.error('There was an error!', error);
         });
@@ -48,7 +48,7 @@ function Update() {
     <div className='d-flex w-100 vh-100 justify-content-center align-items-center'>
         <div className='w-50 border bg-light p-5'>
             <div className='text-end float-right m-3'>
-                <Link to="/" className='btn btn-primary'>Home</Link>
+                <Link to="/home/" className='btn btn-primary'>Home</Link>
             </div>
             <div className='m-5'>
                 <h1>Edit Employee</h1>
